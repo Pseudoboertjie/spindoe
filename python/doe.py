@@ -22,7 +22,7 @@ from utils import read_pattern
 class DOE:
     def __init__(self, dot_detector_model_path, use_gpu=False) -> None:
         self.use_gpu = use_gpu
-        self.thresh_ratio = 0.1
+        self.thresh_ratio = 0.3
         self.size = 60  # Size of the image input
         self.rmse_thres = 0.12  # RMSE threshold for estimated rotation to be accepted
 
@@ -65,7 +65,7 @@ class DOE:
         params.filterByColor = True
         params.blobColor = 255
         params.minDistBetweenBlobs = 1
-        # params.minThreshold = 100
+        # params.minThreshold = 150
         # params.maxThreshold = 255
         # params.thresholdStep = 20
         self.blob_detector = cv2.SimpleBlobDetector_create(params)

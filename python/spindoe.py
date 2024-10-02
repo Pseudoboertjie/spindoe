@@ -96,7 +96,7 @@ class SpinDOE:
                 else:
                     self.invalid_ax(axs[2 * (i // 8), (i % 8)])
         figManager = plt.get_current_fig_manager()
-        figManager.window.state('zoomed')  # This maximizes the window on Windows systems
+        figManager.window.state()  # This maximizes the window on Windows systems
 
         plt.show()
         return spin, rots, heatmaps, valid_idx
@@ -147,6 +147,9 @@ if __name__ == "__main__":
     # IMPORTANT
     # Spin is in the frame of the first valid orientation. So it needs to be
     # transformed back to the frame used for the reference dot pattern.
-    corrected_spin = rots[valid_idx[0]].inv().apply(spin)
-    print("Spin in rad/s", corrected_spin)
-    print("spin norm in rps", np.linalg.norm(corrected_spin) / (2 * np.pi))
+    try:
+        corrected_spin = rots[valid_idx[0]].inv().apply(spin)
+        print("Spin in rad/s", corrected_spin)
+        print("spin norm in rps", np.linalg.norm(corrected_spin) / (2 * np.pi))
+    except:
+        print("DOE has failed")

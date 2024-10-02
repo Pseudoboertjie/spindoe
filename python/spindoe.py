@@ -17,7 +17,7 @@ from utils import get_time
 
 class SpinDOE:
     def __init__(self, dot_detector_model):
-        self.doe = DOE(dot_detector_model, True)
+        self.doe = DOE(dot_detector_model, False)
         self.spin_regressor = SpinRegressor()
 
     def estimate(self, t, imgs):
@@ -96,7 +96,8 @@ class SpinDOE:
                 else:
                     self.invalid_ax(axs[2 * (i // 8), (i % 8)])
         figManager = plt.get_current_fig_manager()
-        figManager.window.showMaximized()
+        figManager.window.state('zoomed')  # This maximizes the window on Windows systems
+
         plt.show()
         return spin, rots, heatmaps, valid_idx
 

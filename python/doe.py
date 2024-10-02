@@ -223,7 +223,7 @@ class DOE:
 
 
 if __name__ == "__main__":
-    use_gpu = True
+    use_gpu = False
     dot_detector_model = Path().cwd().parent / "data" / "model" / "spindoe.ckpt"
     # Test the doe
     doe = DOE(dot_detector_model, use_gpu)

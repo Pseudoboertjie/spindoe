@@ -32,7 +32,7 @@ def write_pattern(file_path, points):
 
 
 def get_time(path):
-    parts = str(path).split("/")
+    parts = str(path).split("\\")
     time = parts[-1][:-4]
     t = int(time) * 1e-9
     return t

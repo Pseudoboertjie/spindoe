@@ -13,18 +13,21 @@ if __name__ == "__main__":
         ),
     )
     args = parser.parse_args()
-    dir_path = Path(args.dir)
+    dir_path = Path.cwd().parent /"test"
     img_paths = dir_path.glob("*.png")
+    print(img_paths)
     for path in img_paths:
         # Get the timestamp of the image
         result = re.search("time(.*)timestamp", str(path))
-        t = float(result.group(1))
-        t /= 1000
-        # Generate the new name of the image
-        time_parts = str(t).split(".")
-        seconds = time_parts[0]
-        microseconds = time_parts[1][:9]
-        name = "s".join([seconds, microseconds]) + ".png"
-        # print(name)
-        # Rename the image
-        os.rename(str(path.absolute()), str(path.parent.absolute() / name))
+        print(result)
+        # t = float(result.group(1))
+        # t /= 1000
+        # # Generate the new name of the image
+        # time_parts = str(t).split(".")
+        # seconds = time_parts[0]
+        # microseconds = time_parts[1][:9]
+        # name = "s".join([seconds, microseconds]) + ".png"
+        # print(path)
+        # # Rename the image
+        # os.rename(str(path.absolute()), str(path.parent.absolute() / name))
+        print(path)

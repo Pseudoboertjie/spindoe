@@ -99,6 +99,7 @@ class SpinDOE:
         figManager.window.state()  # This maximizes the window on Windows systems
 
         plt.show()
+        
         return spin, rots, heatmaps, valid_idx
 
     def valid_ax(self, ax):
@@ -129,7 +130,8 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     # Get the images from the test directory
-    img_paths = sorted(list(args.dir.glob("*.png")))
+    # img_paths = sorted(list(args.dir.glob("*.png")))
+    img_paths = sorted(list(args.dir.glob("*.png")), key=lambda x: int(x.stem))
     imgs = []
     times = []
     for path in img_paths:
@@ -143,12 +145,25 @@ if __name__ == "__main__":
 
     times = np.array(times)
     spin, rots, heatmaps, valid_idx = spindoe.debug(times, imgs)
-
+    
     # IMPORTANT
     # Spin is in the frame of the first valid orientation. So it needs to be
     # transformed back to the frame used for the reference dot pattern.
+    # Extract Euler angles and image names
+    if rots:
+        print("\nImage Name and Corresponding Rotation Angles (in degrees):\n")
+        for i, rot in enumerate(rots):
+            if rot is not None:
+                # Convert the rotation to Euler angles (degrees)
+                euler_angles = rot.as_euler('xyz', degrees=True)  # 'xyz' gives rotations around x, y, z axes
+                print(f"Image: {img_paths[i].name}, Angles: {euler_angles}")
+            else:
+                print(f"Image: {img_paths[i].name}, Angles: None (No rotation detected)")
+
+    # Spin correction and final result
     try:
         corrected_spin = rots[valid_idx[0]].inv().apply(spin)
+        
         print("Spin in rad/s", corrected_spin)
         print("spin norm in rps", np.linalg.norm(corrected_spin) / (2 * np.pi))
     except:
